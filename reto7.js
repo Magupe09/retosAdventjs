@@ -28,8 +28,10 @@ fixPackages('a(b(c))e')
 */
 function fixPackages(packages) {
     let arr=packages.split('')
-    let posicionesAper=[]
-    let posicionesCie=[]
+    
+ while (arr.includes('(') || arr.includes(')') ){
+      let posicionesAper=[]
+      let posicionesCie=[]
     for (let i = 0; i < arr.length; i++) {
         if(arr[i]=='('){
            posicionesAper.push(i)
@@ -40,12 +42,19 @@ function fixPackages(packages) {
     let inicio = posicionesAper[posicionesAper.length - 1] + 1;
     let fin = posicionesCie[0] - 1;
     let cadenaInterna = arr.slice(inicio,fin +1).reverse().join('')
-    console.log(cadenaInterna)
+    //console.log(cadenaInterna)
     arr.splice(inicio, fin - inicio + 1, ...cadenaInterna);
-    console.log(arr.join(''),inicio,fin)
-    arr.splice(inicio -1,1)
-    arr.splice(fin +1,1)
-    console.log(arr)
+    console.log(inicio,fin)
+    arr.splice(inicio -1 ,1)
+    arr.splice(fin ,1)
+    console.log(arr,"aqui")
   }
-  fixPackages('abc(def(gh)i)jk')
-  //fixPackages('a(b(c))e')
+  
+  let arr2 =arr.join('')
+  console.log(typeof(arr2))
+    
+
+  }
+  //fixPackages('abc(def(gh)i)jk') //"abcighfedjk"
+  fixPackages('a(b(c))e')  // ➞ "acbe"
+  fixPackages('a(cb)de') // ➞ "abcde"
