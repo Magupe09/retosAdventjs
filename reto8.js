@@ -45,20 +45,20 @@ drawRace([3, 7, -2], 12)
 function drawRace(indices, length) {
     // Code here
     //  // Code here
-      let carrera="";
+      let carrera=""; //dibujamos la pista
       
       
-      let spaces= indices.length -1
+      let spaces= indices.length -1 //espacios entre las pistas
       
   
-      for(let i=0; i<indices.length;i++){
+      for(let i=0; i<indices.length;i++){ //recorremos las pistas
       
       
        let longitudCarrera = length
         
       let pista =`~`.repeat(longitudCarrera).split("");// dibujamos la pista
   
-        if(i === indices.length -1){
+        if(i === indices.length -1){ //si es la última pista
           if(indices[i]=== 0){
             carrera +=" ".repeat(spaces)+pista.join("") + " /" + ( i+1 )
           }else{
