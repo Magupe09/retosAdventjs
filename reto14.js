@@ -41,7 +41,7 @@ function minMovesToStables(reindeer,stables){
     for(let i=0 ; i <= reindeer.length -1 ; i++){
          
         
-        movimiento= reindeer[i] - stables[i];
+        let movimiento= reindeer[i] - stables[i];
        // console.log(movimiento, reindeer[i],stables[i])
         movimiento= Math.abs(movimiento)
         movimientosT  += movimiento
