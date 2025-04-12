@@ -34,7 +34,7 @@ function removeSnow(s) {
     }
    
 
-    return console.log(stak.join(''));
+    return stak.join('');
   }
 
 removeSnow('zzz') // -> "z"
