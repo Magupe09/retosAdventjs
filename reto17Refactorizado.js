@@ -21,7 +21,7 @@ function detectBombsRefactored(grid) {
       }
     }
   
-    return console.log(newGrid, 'grid final refactorizado');
+    return console.log(newGrid, 'grid final refactorizado',rows);
   }
   
   detectBombsRefactored([
