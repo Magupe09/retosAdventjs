@@ -62,55 +62,105 @@ distributeWeight(6)
 Nota: ¡Ten cuidado con los espacios en blanco! No añadas espacios en blanco a la derecha de una caja si no son necesarios.
 */
 const boxRepresentations = {
-    1: [" _ ", "|_|"] ,
+    1: [" _ ", "|_|"],
     2: [" ___ ", "|___|"],
     5: [" _____ ", "|     |", "|_____|"],
     10: [" _________ ", "|         |", "|_________|"]
-  }
+}
 function distributeWeight(weight) {
     let lineasDibujoFinal = [];
-    let pesos=[10,5,2,1];
-    let cajas=[]
-    let resta=weight;
-    let dibujo="";
-  
-    for(i=0; i<= pesos.length -1 ; i++){
-        while(resta >= pesos[i]){
-       
+    let pesos = [10, 5, 2, 1];
+    let cajas = []
+    let resta = weight;
+    let dibujo = "";
+
+    for (i = 0; i <= pesos.length - 1; i++) {
+        while (resta >= pesos[i]) {
+
             cajas.push(pesos[i]);
-            resta= resta - pesos[i];
+            resta = resta - pesos[i];
         }
     }
 
 
     cajas.sort((a, b) => a - b)
-    for(j=0; j < cajas.length ;j++){
-        
-        
-            let currentBoxLines = boxRepresentations[cajas[j]];
-            if(j === cajas.length - 1){
-                for(z=0;z<currentBoxLines.length;z++){
-                    lineasDibujoFinal.push(currentBoxLines[z])
-                    
-                }
-            }else{
-                for(z=0;z<currentBoxLines.length-1;z++){
-                    lineasDibujoFinal.push(currentBoxLines[z])
-                    
-                }
-                
-            }
-           
-       //console.log(currentBoxLines)
-       
-    }
-    
-    return console.log(lineasDibujoFinal.join('\n'),cajas);
-  }
+    for (j = 0; j < cajas.length; j++) {
 
-  distributeWeight(6)
-  // Devuelve:
-  //  _
-  // |_|___
-  // |     |
-  // |_____|
+
+        let currentBoxLines = boxRepresentations[cajas[j]];
+        if (j === cajas.length - 1) {
+            for (z = 0; z < currentBoxLines.length; z++) {
+                lineasDibujoFinal.push(currentBoxLines[z])
+
+            }
+        } else {
+            for (z = 0; z < currentBoxLines.length-1; z++) {
+                lineasDibujoFinal.push(currentBoxLines[z])
+
+            }
+            let stringUltimoLineaCompleta=boxRepresentations[cajas[j]];
+            let stringUltimo= stringUltimoLineaCompleta[stringUltimoLineaCompleta.length-1] 
+            
+            let stringPrimeroLineaCompleta=boxRepresentations[cajas[j+1]]
+            let stringPrimero=stringPrimeroLineaCompleta[0];
+
+            let union= stringUltimo + stringPrimero;
+            lineasDibujoFinal.push(union)
+            //console.log(union,stringPrimeroLineaCompleta)
+
+        }
+    }
+    let mayorString= 0;
+    lineasDibujoFinal.map(e =>{
+       
+        if(e.length > mayorString){
+            mayorString= e.length;
+        }
+        
+     }
+     )
+
+     let nuevoLineasDibujoFinal = lineasDibujoFinal.map(e=>{
+        let espacioFaltantes= mayorString - e.length;
+        let stringEspacios =" ".repeat(espacioFaltantes);
+
+       return e += stringEspacios;
+        
+     })
+     console.log(mayorString)
+
+
+    return console.log(nuevoLineasDibujoFinal.join('\n'), cajas);
+}
+
+distributeWeight(6)
+// Devuelve:
+//  _
+// |_|___
+// |     |
+// |_____|
+distributeWeight(5)
+// Devuelve:
+//  _____
+// |     |
+// |_____|
+
+distributeWeight(2)
+// Devuelve:
+//  ___
+// |___|
+
+distributeWeight(3)
+// Devuelve:
+//  _
+// |_|_
+// |___|
+
+distributeWeight(4)
+// Devuelve:
+//  ___
+// |___|
+// |___|
+
+
+
