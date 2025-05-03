@@ -45,12 +45,12 @@ isTreesSynchronized(tree1, tree2) // [true, '🎄']
 */
 
 function isTreesSynchronized(tree1, tree2) {
-    console.log(tree1, tree2)
+    //console.log(tree1, tree2)
     function areNodesMirrored(node1, node2) {
-        if (node1 === null && node2 === null) {
+        if (!node1 && !node2) {
             return true; // Son espejos si ambos son null
         }
-        if (node1 === null || node2 === null) {
+        if (!node1 || !node2) {
             return false; // No son espejos si solo uno es null (y el otro no, por el paso anterior)
         }
         if (node1.value !== node2.value) {
@@ -63,6 +63,7 @@ function isTreesSynchronized(tree1, tree2) {
     }
 
     const sonEspejos = areNodesMirrored(tree1, tree2)
+    console.log([sonEspejos,tree1.value])
     return [sonEspejos, tree1.value]
 
 
@@ -86,7 +87,7 @@ const tree3 = {
     right: { value: '🎁' }
 }
 
-//isTreesSynchronized(tree1, tree3) // [false, '🎄']
+isTreesSynchronized(tree1, tree3) // [false, '🎄']
 
 const tree4 = {
     value: '🎄',
@@ -94,7 +95,7 @@ const tree4 = {
     right: { value: '🎅' }
 }
 
-//isTreesSynchronized(tree1, tree4) // [false, '🎄']
+isTreesSynchronized(tree1, tree4) // [false, '🎄']
 
 //isTreesSynchronized({ value: '🎅' },{ value: '🧑‍🎄' }) // [false, '🎅']
 
