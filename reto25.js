@@ -24,37 +24,109 @@ Nota: Un condicional puede tener un bucle dentro y también un bucle puede tener
 */
 
 function execute(code) {
-    const count = 0;
-    console.log(code, code.length)
-    for (i = 0; i < code.length; i++) {
-        
-        if (code[i]==="["){
-            let index = code.indexOf("]");
-            console.log(i,index); // 10
+    let count = 0;
+    let pointer = 0;
+    const openToCloseMap = {}; // Mapa: indice de apertura -> indice de cierre
+    const closeToOpenMap = {}; // Mapa: indice de cierre -> indice de apertura
+    const stack = []; // Guardará índices de '[' o '{'
 
-        }
+    for (let i = 0; i < code.length; i++) {
+        const char = code[i];
+        if (char === '[' || char === '{') {
+            stack.push(i);
+        }else if (char === ']' || char === '}') {
+            // Sacas el índice de la apertura correspondiente de la pila
+            const openIndex = stack.pop();
         
-        if (code[i]==="{"){
-            let index = code.indexOf("}");
-            console.log(i,index); // 10
+            // Ahora que tienes la pareja (openIndex e i), la guardas en ambos mapas
+            openToCloseMap[openIndex] = i;
+            closeToOpenMap[i] = openIndex;
+        }
+    }
 
+    //console.log(code, code.length)
+    function findMatchingBracket(code, openBracketIndex) {
+        let countLLaves = 0
+        for (let j = openBracketIndex + 1; j < code.length; j++) {
+            if (code[j] === "{") {
+                countLLaves += 1;
+            } if (code[j] === "}") {
+                countLLaves -= 1;
+            }
+            if (code[j] === "]" && countLLaves === 0) {
+                return j;
+            }
         }
-        
-            
+
+
+    }
+    function findMatchingBrace(code, openBraceIndex) {
+        let countCorchete = 0
+        for (let j = openBraceIndex + 1; j < code.length; j++) {
+            if (code[j] === "[") {
+                countCorchete += 1;
+            } if (code[j] === "]") {
+                countCorchete -= 1;
+            }
+            if (code[j] === "}" && countCorchete === 0) {
+                return j;
+            }
+        }
+    }
+
+    while (pointer < code.length) {
+        const instruccion = code[pointer];
+        if (instruccion === '+') {
+            count += 1;
+            pointer += 1;
+        } else if (instruccion === '-') {
+            count -=1;
+            pointer += 1;
+        } else if (instruccion === '>') {
+            pointer += 1;
+        } else if (instruccion === "[") {
+            if (count === 0) {
+                const cierreCorchete = findMatchingBracket(code, i)
+                pointer = cierreCorchete + 1;
+            } else {
+                pointer += 1;
+            }
+        } else if (instruccion === ']') {
+            if (count !== 0) {
+                const openBracketIndex = closeToOpenMap[pointer];
+                pointer = openBracketIndex + 1;
+            } else {
+                //si el valor es 0,salta despues del cierre!
+                pointer += 1;
+            }
+        } else if (instruccion === "{") {
+            if (count === 0) {
+                const cierreLlaves = findMatchingBrace(code, pointer)
+                pointer = cierreLlaves + 1
+            } else {
+                // si count no es 0
+                pointer += 1;
+            }
+
+
+        } else if (instruccion === '}') {
+            //Fin de la condicional solo avanza
+            pointer += 1;
+        }
 
 
     }
 
 
-
-    return 0
+    console.log(count)
+    return count;
 }
 
-//execute('+++') // 3
-// execute('+--') // -1
-//execute('>+++[-]') // 0
-//execute('>>>+{++}') // 3
-//execute('+{[-]+}+') // 2
-//execute('{+}{+}{+}') // 0
+execute('+++') // 3
+execute('+--') // -1
+execute('>+++[-]') // 0
+execute('>>>+{++}') // 3
+execute('+{[-]+}+') // 2
+execute('{+}{+}{+}') // 0
 execute('------[+]++') // 2
-//execute('-[++{-}]+{++++}') // 5
+execute('-[++{-}]+{++++}') // 5
